@@ -41,7 +41,6 @@ public class BudgetService
                 else if (budgetDto.YearMonth == end.ToString("yyyyMM"))
                 {
                     var overlappingEnd = end;
-                    // var overlappingStart = new DateTime(end.Year, end.Month, 1);
                     var overlappingStart = budgetDto.FirstDay();
                     var overlappingDays = (overlappingEnd - overlappingStart).Days + 1;
                     totalAmount += budgetDto.DailyAmount() * overlappingDays;
