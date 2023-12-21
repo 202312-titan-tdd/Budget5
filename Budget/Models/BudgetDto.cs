@@ -7,12 +7,10 @@ public class BudgetDto
 
     public decimal DailyAmount()
     {
-        var daysInMonth = Days();
-        var dailyAmount = (decimal)Amount / daysInMonth;
-        return dailyAmount;
+        return (decimal)Amount / Days();
     }
 
-    public int Days()
+    private int Days()
     {
         var firstDay = DateTime.ParseExact(YearMonth, "yyyyMM", null);
         return DateTime.DaysInMonth(firstDay.Year, firstDay.Month);
