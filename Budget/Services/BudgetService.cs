@@ -29,16 +29,11 @@ public class BudgetService
         var period = new Period(start, end);
         foreach (var budgetDto in budgetDtos)
         {
-            var overlappingDays = period.OverlappingDays(CreatePeriod(budgetDto));
+            var overlappingDays = period.OverlappingDays(budgetDto.CreatePeriod());
             totalAmount += budgetDto.DailyAmount() * overlappingDays;
         }
 
         return totalAmount;
-    }
-
-    private static Period CreatePeriod(BudgetDto budgetDto)
-    {
-        return new Period(budgetDto.FirstDay(), budgetDto.LastDay());
     }
 }
 

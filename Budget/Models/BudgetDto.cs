@@ -25,4 +25,9 @@ public class BudgetDto
         var firstDay = FirstDay();
         return DateTime.DaysInMonth(firstDay.Year, firstDay.Month);
     }
+
+    public Period CreatePeriod()
+    {
+        return new Period(FirstDay(), LastDay());
+    }
 }
