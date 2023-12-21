@@ -51,16 +51,16 @@ public class BudgetDomainModel
         _budgetDtos = budgetDtos;
     }
 
-    public decimal GetOverlappingAmount(DateTime start, DateTime end)
+    public decimal GetOverlappingAmount(DateTime overlappingStart, DateTime overlappingEnd)
     {
-        var budgetDto = _budgetDtos.FirstOrDefault(x => x.YearMonth == start.ToString("yyyyMM"));
+        var budgetDto = _budgetDtos.FirstOrDefault(x => x.YearMonth == overlappingStart.ToString("yyyyMM"));
         if (budgetDto == null)
         {
             return 0;
         }
 
         var amount = budgetDto.Amount;
-        var daysDiff = (end - start).Days + 1;
-        return (decimal)amount / (DateTime.DaysInMonth(start.Year, start.Month)) * daysDiff;
+        var daysDiff = (overlappingEnd - overlappingStart).Days + 1;
+        return (decimal)amount / (DateTime.DaysInMonth(overlappingStart.Year, overlappingStart.Month)) * daysDiff;
     }
 }
