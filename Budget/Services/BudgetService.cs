@@ -59,8 +59,8 @@ public class BudgetDomainModel
             return 0;
         }
 
-        var amount = budgetDto.Amount;
         var overlappingDays = (overlappingEnd - overlappingStart).Days + 1;
-        return (decimal)amount / (DateTime.DaysInMonth(overlappingStart.Year, overlappingStart.Month)) * overlappingDays;
+        var dailyAmount = (decimal)budgetDto.Amount / (DateTime.DaysInMonth(overlappingStart.Year, overlappingStart.Month));
+        return dailyAmount * overlappingDays;
     }
 }
