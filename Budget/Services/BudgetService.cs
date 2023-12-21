@@ -1,5 +1,9 @@
-﻿using Budget.Interfaces;
+﻿#region
+
+using Budget.Interfaces;
 using Budget.Models;
+
+#endregion
 
 namespace Budget.Services;
 
@@ -18,19 +22,18 @@ public class BudgetService
         {
             return 0;
         }
-        
+
         var budgetDtos = _budgetRepo.GetAll();
 
         var budgetDomainModel = new BudgetDomainModel(budgetDtos);
         if (start.Month != end.Month)
         {
             var startAmount = budgetDomainModel.GetAmount(start,
-                new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)));
+                                                          new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)));
 
             var endAmount = budgetDomainModel.GetAmount(new DateTime(end.Year, end.Month, 1), end);
 
-            var middleMonthAmount = budgetDtos.Where(o => Convert.ToInt32(o.YearMonth) > Convert.ToInt32(start.ToString("yyyyMM"))
-                                            && Convert.ToInt32(o.YearMonth) < Convert.ToInt32(end.ToString("yyyyMM"))).Sum(o=>o.Amount);
+            var middleMonthAmount = budgetDtos.Where(o => Convert.ToInt32(o.YearMonth) > Convert.ToInt32(start.ToString("yyyyMM")) && Convert.ToInt32(o.YearMonth) < Convert.ToInt32(end.ToString("yyyyMM"))).Sum(o => o.Amount);
 
             return startAmount + endAmount + middleMonthAmount;
         }
@@ -50,9 +53,10 @@ public class BudgetDomainModel
 
     public decimal GetAmount(DateTime start, DateTime end)
     {
-        var sum = _budgetDtos.Where(x => x.YearMonth == start.ToString("yyyyMM")).Sum(o => o.Amount);
+        var amount = _budgetDtos.FirstOrDefault(x => x.YearMonth == start.ToString("yyyyMM"))?.Amount ?? 0;
+        // var sum = budgets.Sum(o => o.Amount);
 
         var daysDiff = (end - start).Days + 1;
-        return (decimal) sum / (DateTime.DaysInMonth(start.Year, start.Month)) * daysDiff;
+        return (decimal)amount / (DateTime.DaysInMonth(start.Year, start.Month)) * daysDiff;
     }
 }
