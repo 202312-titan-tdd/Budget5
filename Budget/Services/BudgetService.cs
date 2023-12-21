@@ -38,7 +38,18 @@ public class BudgetService
                 startAmount = startBudgetDto.DailyAmount() * overlappingDays;
             }
 
-            var endAmount = budgetDomainModel.GetOverlappingAmount(new DateTime(end.Year, end.Month, 1), end, budgetDtos);
+            decimal endAmount;
+            var budgetDto = budgetDtos.FirstOrDefault(x => x.YearMonth == end.ToString("yyyyMM"));
+            if (budgetDto == null)
+            {
+                endAmount = 0;
+            }
+            else
+            {
+                var overlappingStart = new DateTime(end.Year, end.Month, 1);
+                var overlappingDays = (end - overlappingStart).Days + 1;
+                endAmount = budgetDto.DailyAmount() * overlappingDays;
+            }
 
             var middleMonthAmount = budgetDtos.Where(o => Convert.ToInt32(o.YearMonth) > Convert.ToInt32(start.ToString("yyyyMM")) && Convert.ToInt32(o.YearMonth) < Convert.ToInt32(end.ToString("yyyyMM"))).Sum(o => o.Amount);
 
