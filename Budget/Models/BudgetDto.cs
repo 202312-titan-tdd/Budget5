@@ -15,4 +15,9 @@ public class BudgetDto
         var firstDay = DateTime.ParseExact(YearMonth, "yyyyMM", null);
         return DateTime.DaysInMonth(firstDay.Year, firstDay.Month);
     }
+
+    public DateTime LastDay()
+    {
+        return DateTime.ParseExact(YearMonth+Days(),"yyyyMMdd",null);
+    }
 }
