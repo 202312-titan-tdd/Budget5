@@ -10,14 +10,20 @@ public class BudgetDto
         return (decimal)Amount / Days();
     }
 
-    private int Days()
+    public DateTime FirstDay()
     {
         var firstDay = DateTime.ParseExact(YearMonth, "yyyyMM", null);
-        return DateTime.DaysInMonth(firstDay.Year, firstDay.Month);
+        return firstDay;
     }
 
     public DateTime LastDay()
     {
-        return DateTime.ParseExact(YearMonth+Days(),"yyyyMMdd",null);
+        return DateTime.ParseExact(YearMonth + Days(), "yyyyMMdd", null);
+    }
+
+    private int Days()
+    {
+        var firstDay = DateTime.ParseExact(YearMonth, "yyyyMM", null);
+        return DateTime.DaysInMonth(firstDay.Year, firstDay.Month);
     }
 }
