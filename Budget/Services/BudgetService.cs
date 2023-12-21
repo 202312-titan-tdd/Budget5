@@ -33,25 +33,24 @@ public class BudgetService
             var middleMonthAmount = budgetDtos.Where(o => Convert.ToInt32(o.YearMonth) > Convert.ToInt32(start.ToString("yyyyMM")) && Convert.ToInt32(o.YearMonth) < Convert.ToInt32(end.ToString("yyyyMM"))).Sum(o => o.Amount);
             foreach (var budgetDto in budgetDtos)
             {
-                // var startBudgetDto = budgetDtos.FirstOrDefault(x => x.YearMonth == start.ToString("yyyyMM"));
-                // if (startBudgetDto != null)
                 if (budgetDto.YearMonth == start.ToString("yyyyMM"))
                 {
                     var overlappingEnd = new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month));
                     var overlappingStart = start;
                     var overlappingDays = (overlappingEnd - overlappingStart).Days + 1;
                     startAmount = budgetDto.DailyAmount() * overlappingDays;
-                    break;
                 }
-            }
-
-            var endBudgetDto = budgetDtos.FirstOrDefault(x => x.YearMonth == end.ToString("yyyyMM"));
-            if (endBudgetDto != null)
-            {
-                var overlappingEnd = end;
-                var overlappingStart = new DateTime(end.Year, end.Month, 1);
-                var overlappingDays = (overlappingEnd - overlappingStart).Days + 1;
-                endAmount = endBudgetDto.DailyAmount() * overlappingDays;
+                else if (budgetDto.YearMonth == end.ToString("yyyyMM"))
+                {
+                    // var endBudgetDto = budgetDtos.FirstOrDefault(x => x.YearMonth == end.ToString("yyyyMM"));
+                    // if (endBudgetDto != null)
+                    // {
+                    var overlappingEnd = end;
+                    var overlappingStart = new DateTime(end.Year, end.Month, 1);
+                    var overlappingDays = (overlappingEnd - overlappingStart).Days + 1;
+                    endAmount = budgetDto.DailyAmount() * overlappingDays;
+                    // }
+                }
             }
 
             return startAmount + endAmount + middleMonthAmount;
