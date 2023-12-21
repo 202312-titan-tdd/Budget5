@@ -29,11 +29,11 @@ public class BudgetService
         if (start.Month != end.Month)
         {
             var startAmount = 0m;
-            var budgetDto = budgetDtos.FirstOrDefault(x => x.YearMonth == start.ToString("yyyyMM"));
-            if (budgetDto != null)
+            var startBudgetDto = budgetDtos.FirstOrDefault(x => x.YearMonth == start.ToString("yyyyMM"));
+            if (startBudgetDto != null)
             {
                 var overlappingDays = (new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)) - start).Days + 1;
-                startAmount = budgetDto.DailyAmount() * overlappingDays;
+                startAmount = startBudgetDto.DailyAmount() * overlappingDays;
             }
 
             var endAmount = budgetDomainModel.GetOverlappingAmount(new DateTime(end.Year, end.Month, 1), end, budgetDtos);
