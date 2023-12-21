@@ -28,9 +28,6 @@ public class BudgetService
         var budgetDomainModel = new BudgetDomainModel(budgetDtos);
         if (start.Month != end.Month)
         {
-            // var startAmount = 0m;
-            // var endAmount = 0m;
-            var middleMonthAmount = budgetDtos.Where(o => Convert.ToInt32(o.YearMonth) > Convert.ToInt32(start.ToString("yyyyMM")) && Convert.ToInt32(o.YearMonth) < Convert.ToInt32(end.ToString("yyyyMM"))).Sum(o => o.Amount);
             var totalAmount = 0m;
             foreach (var budgetDto in budgetDtos)
             {
@@ -55,8 +52,6 @@ public class BudgetService
             }
 
             return totalAmount;
-            // return totalAmount + middleMonthAmount;
-            // return startAmount + endAmount + middleMonthAmount;
         }
 
         return budgetDomainModel.GetOverlappingAmount(start, end, budgetDtos);
