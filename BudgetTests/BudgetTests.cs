@@ -1,11 +1,16 @@
+#region
+
 using Budget.Interfaces;
 using Budget.Models;
 using Budget.Services;
 using FluentAssertions;
 using NSubstitute;
 
+#endregion
+
 namespace BudgetTests;
 
+[TestFixture]
 public class BudgetTests
 {
     private IBudgetRepo _budgetRepo = null!;
@@ -16,38 +21,6 @@ public class BudgetTests
     {
         _budgetRepo = Substitute.For<IBudgetRepo>();
         _budgetService = new BudgetService(_budgetRepo);
-    }
-
-    [Test]
-    public void query_whole_month()
-    {
-        GivenBudget(
-            new BudgetDto()
-            {
-                YearMonth = "202312",
-                Amount = 3100
-            }
-        );
-
-        var amount = WhenQueryBudget(new DateTime(2023, 12, 01), new DateTime(2023, 12, 31));
-
-        amount.Should().Be(3100);
-    }
-    
-    [Test]
-    public void query_invalid_period()
-    {
-        GivenBudget(
-            new BudgetDto()
-            {
-                YearMonth = "202312",
-                Amount = 3100
-            }
-        );
-
-        var amount = WhenQueryBudget(new DateTime(2024, 12, 01), new DateTime(2023, 12, 31));
-
-        amount.Should().Be(0);
     }
 
     [Test]
@@ -74,7 +47,7 @@ public class BudgetTests
     }
 
     [Test]
-    public void query_partial_month()
+    public void query_invalid_period()
     {
         GivenBudget(
             new BudgetDto()
@@ -84,11 +57,9 @@ public class BudgetTests
             }
         );
 
-        var start = new DateTime(2023, 12, 01);
-        var end = new DateTime(2023, 12, 10);
-        var amount = WhenQueryBudget(start, end);
+        var amount = WhenQueryBudget(new DateTime(2024, 12, 01), new DateTime(2023, 12, 31));
 
-        amount.Should().Be(1000);
+        amount.Should().Be(0);
     }
 
     [Test]
@@ -118,16 +89,49 @@ public class BudgetTests
 
         amount.Should().Be(45600);
     }
-   
 
-    private decimal WhenQueryBudget(DateTime start, DateTime end)
+    [Test]
+    public void query_partial_month()
     {
-        var amount = _budgetService.Query(start, end);
-        return amount;
+        GivenBudget(
+            new BudgetDto()
+            {
+                YearMonth = "202312",
+                Amount = 3100
+            }
+        );
+
+        var start = new DateTime(2023, 12, 01);
+        var end = new DateTime(2023, 12, 10);
+        var amount = WhenQueryBudget(start, end);
+
+        amount.Should().Be(1000);
+    }
+
+    [Test]
+    public void query_whole_month()
+    {
+        GivenBudget(
+            new BudgetDto()
+            {
+                YearMonth = "202312",
+                Amount = 3100
+            }
+        );
+
+        var amount = WhenQueryBudget(new DateTime(2023, 12, 01), new DateTime(2023, 12, 31));
+
+        amount.Should().Be(3100);
     }
 
     private void GivenBudget(params BudgetDto[] budgetDtos)
     {
         _budgetRepo.GetAll().Returns(budgetDtos.ToList());
+    }
+
+    private decimal WhenQueryBudget(DateTime start, DateTime end)
+    {
+        var amount = _budgetService.Query(start, end);
+        return amount;
     }
 }

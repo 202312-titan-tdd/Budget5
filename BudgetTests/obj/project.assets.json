@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net7.0": {
+    "net6.0": {
       "Castle.Core/5.1.1": {
         "type": "package",
         "dependencies": {
@@ -489,7 +489,7 @@
       },
       "Budget/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v7.0",
+        "framework": ".NETCoreApp,Version=v6.0",
         "compile": {
           "bin/placeholder/Budget.dll": {}
         },
@@ -1267,7 +1267,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net7.0": [
+    "net6.0": [
       "Budget >= 1.0.0",
       "FluentAssertions >= 6.12.0",
       "Microsoft.NET.Test.Sdk >= 17.6.0",
@@ -1279,35 +1279,34 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\joe.zhang16\\.nuget\\packages\\": {}
+    "C:\\Users\\joey_\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Git\\GGTest\\Budget\\BudgetTests\\BudgetTests.csproj",
+      "projectUniqueName": "C:\\Users\\joey_\\RiderProjects\\202312-titan-tdd\\Budget-team5\\BudgetTests\\BudgetTests.csproj",
       "projectName": "BudgetTests",
-      "projectPath": "D:\\Git\\GGTest\\Budget\\BudgetTests\\BudgetTests.csproj",
-      "packagesPath": "C:\\Users\\joe.zhang16\\.nuget\\packages\\",
-      "outputPath": "D:\\Git\\GGTest\\Budget\\BudgetTests\\obj\\",
+      "projectPath": "C:\\Users\\joey_\\RiderProjects\\202312-titan-tdd\\Budget-team5\\BudgetTests\\BudgetTests.csproj",
+      "packagesPath": "C:\\Users\\joey_\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\joey_\\RiderProjects\\202312-titan-tdd\\Budget-team5\\BudgetTests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\joe.zhang16\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\joey_\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net7.0"
+        "net6.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "http://nuget.coreop.net/nuget": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Git\\GGTest\\Budget\\Budget\\Budget.csproj": {
-              "projectPath": "D:\\Git\\GGTest\\Budget\\Budget\\Budget.csproj"
+            "C:\\Users\\joey_\\RiderProjects\\202312-titan-tdd\\Budget-team5\\Budget\\Budget.csproj": {
+              "projectPath": "C:\\Users\\joey_\\RiderProjects\\202312-titan-tdd\\Budget-team5\\Budget\\Budget.csproj"
             }
           }
         }
@@ -1319,8 +1318,8 @@
       }
     },
     "frameworks": {
-      "net7.0": {
-        "targetAlias": "net7.0",
+      "net6.0": {
+        "targetAlias": "net6.0",
         "dependencies": {
           "FluentAssertions": {
             "target": "Package",
@@ -1367,16 +1366,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1803",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://nuget.coreop.net/nuget'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
-    }
-  ]
+  }
 }
