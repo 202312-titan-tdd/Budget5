@@ -53,8 +53,15 @@ public class BudgetDomainModel
 
     public decimal GetAmount(DateTime start, DateTime end)
     {
-        var amount = _budgetDtos.FirstOrDefault(x => x.YearMonth == start.ToString("yyyyMM"))?.Amount ?? 0;
-        // var sum = budgets.Sum(o => o.Amount);
+        int amount;
+        if (_budgetDtos.FirstOrDefault(x => x.YearMonth == start.ToString("yyyyMM")) != null)
+        {
+            amount = _budgetDtos.FirstOrDefault(x => x.YearMonth == start.ToString("yyyyMM")).Amount;
+        }
+        else
+        {
+            amount = 0;
+        }
 
         var daysDiff = (end - start).Days + 1;
         return (decimal)amount / (DateTime.DaysInMonth(start.Year, start.Month)) * daysDiff;
