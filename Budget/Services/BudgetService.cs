@@ -25,14 +25,9 @@ public class BudgetService
 
         var budgetDtos = _budgetRepo.GetAll();
 
-        var totalAmount = 0m;
         var period = new Period(start, end);
-        foreach (var budgetDto in budgetDtos)
-        {
-            totalAmount += budgetDto.OverlappingAmount(period);
-        }
 
-        return totalAmount;
+        return budgetDtos.Sum(budgetDto => budgetDto.OverlappingAmount(period));
     }
 }
 
