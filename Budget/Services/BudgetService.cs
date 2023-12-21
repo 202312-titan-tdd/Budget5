@@ -47,7 +47,11 @@ public class BudgetService
                 }
                 else
                 {
-                    totalAmount += budgetDto.Amount;
+                    var overlappingEnd = budgetDto.LastDay();
+                    var overlappingStart = budgetDto.FirstDay();
+                    var overlappingDays = (overlappingEnd - overlappingStart).Days + 1;
+                    totalAmount += budgetDto.DailyAmount() * overlappingDays;
+                    // totalAmount += budgetDto.Amount;
                 }
             }
 
