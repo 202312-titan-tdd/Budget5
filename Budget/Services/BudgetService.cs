@@ -7,6 +7,18 @@ using Budget.Models;
 
 namespace Budget.Services;
 
+public class Period
+{
+    public Period(DateTime start, DateTime end)
+    {
+        Start = start;
+        End = end;
+    }
+
+    public DateTime End { get; private set; }
+    public DateTime Start { get; private set; }
+}
+
 public class BudgetService
 {
     private readonly IBudgetRepo _budgetRepo;
@@ -31,7 +43,7 @@ public class BudgetService
             var totalAmount = 0m;
             foreach (var budgetDto in budgetDtos)
             {
-                var overlappingDays = OverlappingDays(start, end, budgetDto);
+                var overlappingDays = OverlappingDays(new Period(start, end), budgetDto);
                 totalAmount += budgetDto.DailyAmount() * overlappingDays;
             }
 
@@ -41,18 +53,18 @@ public class BudgetService
         return budgetDomainModel.GetOverlappingAmount(start, end, budgetDtos);
     }
 
-    private static int OverlappingDays(DateTime start, DateTime end, BudgetDto budgetDto)
+    private static int OverlappingDays(Period period, BudgetDto budgetDto)
     {
         DateTime overlappingEnd;
         DateTime overlappingStart;
-        if (budgetDto.YearMonth == start.ToString("yyyyMM"))
+        if (budgetDto.YearMonth == period.Start.ToString("yyyyMM"))
         {
             overlappingEnd = budgetDto.LastDay();
-            overlappingStart = start;
+            overlappingStart = period.Start;
         }
-        else if (budgetDto.YearMonth == end.ToString("yyyyMM"))
+        else if (budgetDto.YearMonth == period.End.ToString("yyyyMM"))
         {
-            overlappingEnd = end;
+            overlappingEnd = period.End;
             overlappingStart = budgetDto.FirstDay();
         }
         else
