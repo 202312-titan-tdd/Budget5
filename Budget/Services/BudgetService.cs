@@ -29,16 +29,16 @@ public class BudgetService
         if (start.Month != end.Month)
         {
             var startAmount = budgetDomainModel.GetOverlappingAmount(start,
-                                                                     new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)));
+                                                                     new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)), budgetDtos);
 
-            var endAmount = budgetDomainModel.GetOverlappingAmount(new DateTime(end.Year, end.Month, 1), end);
+            var endAmount = budgetDomainModel.GetOverlappingAmount(new DateTime(end.Year, end.Month, 1), end, budgetDtos);
 
             var middleMonthAmount = budgetDtos.Where(o => Convert.ToInt32(o.YearMonth) > Convert.ToInt32(start.ToString("yyyyMM")) && Convert.ToInt32(o.YearMonth) < Convert.ToInt32(end.ToString("yyyyMM"))).Sum(o => o.Amount);
 
             return startAmount + endAmount + middleMonthAmount;
         }
 
-        return budgetDomainModel.GetOverlappingAmount(start, end);
+        return budgetDomainModel.GetOverlappingAmount(start, end, budgetDtos);
     }
 }
 
@@ -51,16 +51,16 @@ public class BudgetDomainModel
         _budgetDtos = budgetDtos;
     }
 
-    public decimal GetOverlappingAmount(DateTime overlappingStart, DateTime overlappingEnd)
+    public decimal GetOverlappingAmount(DateTime overlappingStart, DateTime overlappingEnd, List<BudgetDto> budgetDtos)
     {
-        var budgetDto = _budgetDtos.FirstOrDefault(x => x.YearMonth == overlappingStart.ToString("yyyyMM"));
+        var budgetDto = budgetDtos.FirstOrDefault(x => x.YearMonth == overlappingStart.ToString("yyyyMM"));
         if (budgetDto == null)
         {
             return 0;
         }
 
         var amount = budgetDto.Amount;
-        var daysDiff = (overlappingEnd - overlappingStart).Days + 1;
-        return (decimal)amount / (DateTime.DaysInMonth(overlappingStart.Year, overlappingStart.Month)) * daysDiff;
+        var overlappingDays = (overlappingEnd - overlappingStart).Days + 1;
+        return (decimal)amount / (DateTime.DaysInMonth(overlappingStart.Year, overlappingStart.Month)) * overlappingDays;
     }
 }
