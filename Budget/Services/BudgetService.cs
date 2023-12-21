@@ -48,9 +48,14 @@ public class BudgetService
                     var overlappingDays = (overlappingEnd - overlappingStart).Days + 1;
                     totalAmount += budgetDto.DailyAmount() * overlappingDays;
                 }
+                else
+                {
+                    totalAmount += budgetDto.Amount;
+                }
             }
 
-            return totalAmount + middleMonthAmount;
+            return totalAmount;
+            // return totalAmount + middleMonthAmount;
             // return startAmount + endAmount + middleMonthAmount;
         }
 
