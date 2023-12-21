@@ -25,9 +25,6 @@ public class BudgetService
 
         var budgetDtos = _budgetRepo.GetAll();
 
-        // var budgetDomainModel = new BudgetDomainModel(budgetDtos);
-        // if (start.Month != end.Month)
-        // {
         var totalAmount = 0m;
         foreach (var budgetDto in budgetDtos)
         {
@@ -36,9 +33,6 @@ public class BudgetService
         }
 
         return totalAmount;
-        // }
-        //
-        // return budgetDomainModel.GetOverlappingAmount(start, end, budgetDtos);
     }
 }
 
