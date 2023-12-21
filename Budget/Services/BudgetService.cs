@@ -26,9 +26,10 @@ public class BudgetService
         var budgetDtos = _budgetRepo.GetAll();
 
         var totalAmount = 0m;
+        var period = new Period(start, end);
         foreach (var budgetDto in budgetDtos)
         {
-            var overlappingDays = new Period(start, end).OverlappingDays(budgetDto);
+            var overlappingDays = period.OverlappingDays(budgetDto);
             totalAmount += budgetDto.DailyAmount() * overlappingDays;
         }
 
