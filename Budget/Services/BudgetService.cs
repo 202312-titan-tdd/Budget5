@@ -25,20 +25,20 @@ public class BudgetService
 
         var budgetDtos = _budgetRepo.GetAll();
 
-        var budgetDomainModel = new BudgetDomainModel(budgetDtos);
-        if (start.Month != end.Month)
+        // var budgetDomainModel = new BudgetDomainModel(budgetDtos);
+        // if (start.Month != end.Month)
+        // {
+        var totalAmount = 0m;
+        foreach (var budgetDto in budgetDtos)
         {
-            var totalAmount = 0m;
-            foreach (var budgetDto in budgetDtos)
-            {
-                var overlappingDays = new Period(start, end).OverlappingDays(budgetDto);
-                totalAmount += budgetDto.DailyAmount() * overlappingDays;
-            }
-
-            return totalAmount;
+            var overlappingDays = new Period(start, end).OverlappingDays(budgetDto);
+            totalAmount += budgetDto.DailyAmount() * overlappingDays;
         }
 
-        return budgetDomainModel.GetOverlappingAmount(start, end, budgetDtos);
+        return totalAmount;
+        // }
+        //
+        // return budgetDomainModel.GetOverlappingAmount(start, end, budgetDtos);
     }
 }
 
